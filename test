@@ -312,12 +312,10 @@ ScrollingFrame.Parent = MainFrame
 -- Tab Management
 
 local tabContents = {}
-
 local tabPositionY = {}
-
 local tabContentHeights = {}
-
 local activeTab = nil
+local tabScrollPositions = {}
 
 local function createTabButton(tabName, iconName)
 
@@ -455,9 +453,8 @@ local function setActiveTab(tabName)
     if activeTab == tabName then return end
     
     if activeTab then
-        if activeTab then
-    tabScrollPositions[activeTab] = ScrollingFrame.CanvasPosition
-end
+        -- Save current scroll position
+        tabScrollPositions[activeTab] = ScrollingFrame.CanvasPosition
         
         tabContents[activeTab].Visible = false
         local prevTabButton = TabContainer:FindFirstChild(activeTab .. "Tab")
@@ -508,9 +505,7 @@ end
     
     ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, tabContentHeights[tabName] or 0)
     
-    local tabScrollPositions = {}
-
--- Restore saved scroll position or default to top
+    -- Restore saved scroll position or default to top
     local savedPosition = tabScrollPositions[tabName]
     if savedPosition then
         ScrollingFrame.CanvasPosition = savedPosition
@@ -534,11 +529,9 @@ function ModernGUILibraryFE.MakeTab(config)
     tabContentHeights[tabName] = 0
     
     local tabButton = createTabButton(tabName, iconName)
-    if tabButton then
     tabButton.MouseButton1Click:Connect(function()
         setActiveTab(tabName)
     end)
-end
     
     if not activeTab then
         setActiveTab(tabName)
