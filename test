@@ -3605,7 +3605,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
         OpenButton.BackgroundTransparency = 1
         OpenButton.TextTransparency = 1
         OpenStroke.Transparency = 1
-        Shadow.ImageTransparency = 1
         
         TweenService:Create(OpenButton, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
             Size = UDim2.new(0, 160, 0, 45),
