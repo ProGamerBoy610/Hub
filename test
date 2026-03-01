@@ -179,7 +179,7 @@ Title.Name = "Title"
 
 Title.Size = UDim2.new(1, 0, 1, 0)
 
-Title.Position = UDim2.new(0, -1, 0, 2)
+Title.Position = UDim2.new(0, 10, 0, 2)
 
 Title.BackgroundTransparency = 1
 
@@ -191,7 +191,7 @@ Title.Font = Enum.Font.GothamBold
 
 Title.Text = "DEFAULT"
 
-Title.TextXAlignment = Enum.TextXAlignment.Center
+Title.TextXAlignment = Enum.TextXAlignment.Left
 
 Title.Parent = TopBar
 
@@ -3231,7 +3231,7 @@ CopyrightButton.Name = "CopyrightButton"
 
 CopyrightButton.Size = UDim2.new(0, 25, 0, 25)
 
-CopyrightButton.Position = UDim2.new(0, 9, 0, 2)
+CopyrightButton.Position = UDim2.new(1, -88, 0, 2)
 
 CopyrightButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 
