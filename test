@@ -508,7 +508,13 @@ local function setActiveTab(tabName)
     ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, tabContentHeights[tabName] or 0)
     
     -- Restore saved scroll position or default to top
-    ScrollingFrame.CanvasPosition = tabScrollPositions[tabName] or Vector2.new(0, 0)
+    local savedPosition = tabScrollPositions[tabName]
+if savedPosition then
+    ScrollingFrame.CanvasPosition = savedPosition
+else
+    ScrollingFrame.CanvasPosition = Vector2.new(0, 0)
+end
+
 end
 
 function ModernGUILibraryFE.MakeTab(config)
@@ -561,7 +567,7 @@ function ModernGUILibraryFE.MakeTab(config)
 
     tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-    tabContentHeights[tabName] = tabPositionY[tabName] + 200
+    tabContentHeights[tabName] = (tabPositionY[tabName] + 200) or 200
 
     if activeTab == tabName then
 
@@ -581,7 +587,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName] + 200
+            tabContentHeights[tabName] = (tabPositionY[tabName] + 200) or 200
 
             if activeTab == tabName then
 
@@ -601,7 +607,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName] + 200
+            tabContentHeights[tabName] = (tabPositionY[tabName] + 200) or 200
 
             if activeTab == tabName then
 
@@ -621,7 +627,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName] + 200
+            tabContentHeights[tabName] = (tabPositionY[tabName] + 200) or 200
 
             if activeTab == tabName then
 
@@ -641,7 +647,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName] + 200
+            tabContentHeights[tabName] = (tabPositionY[tabName] + 200) or 200
 
             if activeTab == tabName then
 
@@ -661,7 +667,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName] + 200
+            tabContentHeights[tabName] = (tabPositionY[tabName] + 200) or 200
 
             if activeTab == tabName then
 
