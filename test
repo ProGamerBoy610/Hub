@@ -2835,12 +2835,17 @@ end
 
 function ModernGUILibraryFE.createNotification(message, type)
     local notifColor = COLORS.Accent
+    local typeText = "INFO"
+    
     if type == "success" then
         notifColor = COLORS.Success
+        typeText = "SUCCESS"
     elseif type == "error" then
         notifColor = COLORS.Error
+        typeText = "ERROR"
     elseif type == "warning" then
         notifColor = COLORS.Warning
+        typeText = "WARNING"
     end
     
     local NotifGui = Instance.new("ScreenGui")
@@ -2848,9 +2853,13 @@ function ModernGUILibraryFE.createNotification(message, type)
     local NotifText = Instance.new("TextLabel")
     local UICorner = Instance.new("UICorner")
     local StatusBar = Instance.new("Frame")
+    local StatusBarBG = Instance.new("Frame")
     local StatusBarCorner = Instance.new("UICorner")
+    local StatusBarBGCorner = Instance.new("UICorner")
     local CloseButton = Instance.new("TextButton")
     local Shadow = Instance.new("ImageLabel")
+    local TypeLabel = Instance.new("TextLabel")
+    local ColorIndicator = Instance.new("Frame")
     
     NotifGui.Name = "ModernNotification"
     NotifGui.DisplayOrder = 999
@@ -2866,14 +2875,27 @@ function ModernGUILibraryFE.createNotification(message, type)
     NotifFrame.Name = "NotifFrame"
     NotifFrame.Parent = NotifGui
     NotifFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
-    NotifFrame.Position = UDim2.new(1, 10, 0.85, 0)
-    NotifFrame.Size = UDim2.new(0, 300, 0, 70)
+    NotifFrame.Position = UDim2.new(1, 10, 0.1, 0)  -- Changed from 0.85 to 0.1 (moved up)
+    NotifFrame.Size = UDim2.new(0, 320, 0, 85)  -- Slightly taller and wider
     NotifFrame.BackgroundTransparency = 0
     NotifFrame.BorderSizePixel = 0
     NotifFrame.ZIndex = 100
     
     UICorner.Parent = NotifFrame
-    UICorner.CornerRadius = UDim.new(0, 8)
+    UICorner.CornerRadius = UDim.new(0, 10)
+    
+    -- Color indicator bar on the left
+    ColorIndicator.Name = "ColorIndicator"
+    ColorIndicator.Parent = NotifFrame
+    ColorIndicator.BackgroundColor3 = notifColor
+    ColorIndicator.Position = UDim2.new(0, 0, 0, 0)
+    ColorIndicator.Size = UDim2.new(0, 5, 1, 0)
+    ColorIndicator.BorderSizePixel = 0
+    ColorIndicator.ZIndex = 101
+    
+    local ColorIndicatorCorner = Instance.new("UICorner")
+    ColorIndicatorCorner.CornerRadius = UDim.new(0, 10)
+    ColorIndicatorCorner.Parent = ColorIndicator
     
     -- Add shadow effect
     Shadow.Name = "Shadow"
@@ -2894,11 +2916,24 @@ function ModernGUILibraryFE.createNotification(message, type)
     NotifStroke.Thickness = 1
     NotifStroke.Parent = NotifFrame
     
+    -- Type label (SUCCESS, ERROR, etc.)
+    TypeLabel.Name = "TypeLabel"
+    TypeLabel.Parent = NotifFrame
+    TypeLabel.BackgroundTransparency = 1
+    TypeLabel.Position = UDim2.new(0, 15, 0, 8)
+    TypeLabel.Size = UDim2.new(0, 150, 0, 18)
+    TypeLabel.Font = Enum.Font.GothamBold
+    TypeLabel.Text = typeText
+    TypeLabel.TextColor3 = notifColor
+    TypeLabel.TextSize = 13
+    TypeLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TypeLabel.ZIndex = 102
+    
     NotifText.Name = "NotifText"
     NotifText.Parent = NotifFrame
     NotifText.BackgroundTransparency = 1
-    NotifText.Position = UDim2.new(0, 15, 0, 10)
-    NotifText.Size = UDim2.new(1, -60, 1, -25)
+    NotifText.Position = UDim2.new(0, 15, 0, 28)
+    NotifText.Size = UDim2.new(1, -60, 0, 35)
     NotifText.Font = Enum.Font.Gotham
     NotifText.Text = message
     NotifText.TextColor3 = Color3.fromRGB(220, 220, 220)
@@ -2908,11 +2943,25 @@ function ModernGUILibraryFE.createNotification(message, type)
     NotifText.TextYAlignment = Enum.TextYAlignment.Top
     NotifText.ZIndex = 101
     
+    -- Status bar background (gray track)
+    StatusBarBG.Name = "StatusBarBG"
+    StatusBarBG.Parent = NotifFrame
+    StatusBarBG.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
+    StatusBarBG.Position = UDim2.new(0, 15, 1, -15)
+    StatusBarBG.Size = UDim2.new(1, -30, 0, 5)
+    StatusBarBG.BorderSizePixel = 0
+    StatusBarBG.ZIndex = 100
+    
+    StatusBarBGCorner.Parent = StatusBarBG
+    StatusBarBGCorner.CornerRadius = UDim.new(1, 0)
+    
+    -- Status bar (colored progress)
     StatusBar.Name = "StatusBar"
-    StatusBar.Parent = NotifFrame
+    StatusBar.Parent = StatusBarBG
     StatusBar.BackgroundColor3 = notifColor
-    StatusBar.Position = UDim2.new(0, 12, 1, -10)
-    StatusBar.Size = UDim2.new(1, -24, 0, 4)
+    StatusBar.Position = UDim2.new(0, 0, 0, 0)
+    StatusBar.Size = UDim2.new(1, 0, 1, 0)
+    StatusBar.BorderSizePixel = 0
     StatusBar.ZIndex = 101
     
     StatusBarCorner.Parent = StatusBar
@@ -2922,12 +2971,12 @@ function ModernGUILibraryFE.createNotification(message, type)
     CloseButton.Name = "CloseButton"
     CloseButton.Parent = NotifFrame
     CloseButton.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
-    CloseButton.Position = UDim2.new(1, -35, 0, 10)
+    CloseButton.Position = UDim2.new(1, -35, 0, 8)
     CloseButton.Size = UDim2.new(0, 25, 0, 25)
     CloseButton.Font = Enum.Font.GothamBold
     CloseButton.Text = "×"
     CloseButton.TextColor3 = Color3.fromRGB(200, 200, 200)
-    CloseButton.TextSize = 16
+    CloseButton.TextSize = 18
     CloseButton.ZIndex = 102
     CloseButton.BorderSizePixel = 0
     CloseButton.AutoButtonColor = false
@@ -2939,30 +2988,33 @@ function ModernGUILibraryFE.createNotification(message, type)
     -- Hover effect for close button
     CloseButton.MouseEnter:Connect(function()
         TweenService:Create(CloseButton, TweenInfo.new(0.2), {
-            BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+            BackgroundColor3 = Color3.fromRGB(220, 60, 60),
+            TextColor3 = Color3.fromRGB(255, 255, 255)
         }):Play()
     end)
     
     CloseButton.MouseLeave:Connect(function()
         TweenService:Create(CloseButton, TweenInfo.new(0.2), {
-            BackgroundColor3 = Color3.fromRGB(50, 50, 55)
+            BackgroundColor3 = Color3.fromRGB(50, 50, 55),
+            TextColor3 = Color3.fromRGB(200, 200, 200)
         }):Play()
     end)
     
     -- Slide in animation
     TweenService:Create(NotifFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Position = UDim2.new(1, -320, 0.85, 0)
+        Position = UDim2.new(1, -340, 0.1, 0)  -- Changed from 0.85 to 0.1
     }):Play()
     
-    local statusTween = TweenService:Create(StatusBar, TweenInfo.new(4, Enum.EasingStyle.Linear), {
-        Size = UDim2.new(0, 0, 0, 4)
+    -- Progress bar animation (empties from full to empty)
+    local statusTween = TweenService:Create(StatusBar, TweenInfo.new(5, Enum.EasingStyle.Linear), {
+        Size = UDim2.new(0, 0, 1, 0)
     })
     statusTween:Play()
     
     local function closeNotification()
         statusTween:Cancel()
         TweenService:Create(NotifFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-            Position = UDim2.new(1, 10, 0.85, 0)
+            Position = UDim2.new(1, 10, 0.1, 0)  -- Changed from 0.85 to 0.1
         }):Play()
         TweenService:Create(Shadow, TweenInfo.new(0.3), {
             ImageTransparency = 1
