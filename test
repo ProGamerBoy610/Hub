@@ -3574,7 +3574,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
         OpenButton.BorderSizePixel = 0
         OpenButton.Font = Enum.Font.GothamBold
         OpenButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        OpenButton.Text = "📱 Open GUI"
+        OpenButton.Text = "Open UI"
         OpenButton.TextSize = 15
         OpenButton.AutoButtonColor = false
         OpenButton.Parent = OpenButtonGui
@@ -3599,19 +3599,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
         OpenStroke.Transparency = 0.3
         OpenStroke.Parent = OpenButton
         
-        -- Add shadow effect
-        local Shadow = Instance.new("ImageLabel")
-        Shadow.Name = "Shadow"
-        Shadow.Size = UDim2.new(1, 20, 1, 20)
-        Shadow.Position = UDim2.new(0, -10, 0, -10)
-        Shadow.BackgroundTransparency = 1
-        Shadow.Image = "rbxassetid://6015897843"
-        Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-        Shadow.ImageTransparency = 0.7
-        Shadow.ScaleType = Enum.ScaleType.Slice
-        Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
-        Shadow.ZIndex = -1
-        Shadow.Parent = OpenButton
         
         -- Animate button appearing
         OpenButton.Size = UDim2.new(0, 0, 0, 0)
