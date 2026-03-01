@@ -3066,65 +3066,36 @@ UIS.InputChanged:Connect(function(input)
 end)
 
 if isMobile then
-
     local touchConnection
-
     local touchEndedConnection
-
     ContextActionService:BindAction("DisableCameraMovement", disableCamera, false, Enum.UserInputType.Touch)
-
     TopBar.InputBegan:Connect(function(input)
-
         if input.UserInputType == Enum.UserInputType.Touch then
-
             dragging = true
-
             dragStart = input.Position
-
             startPos = MainFrame.Position
-
             touchConnection = UIS.TouchMoved:Connect(function(touchInput)
-
                 if touchInput == input and dragging then
-
                     updateDrag(touchInput)
-
                 end
-
             end)
-
             touchEndedConnection = UIS.TouchEnded:Connect(function(touchInput)
-
                 if touchInput == input then
-
                     dragging = false
-
                     if touchConnection then touchConnection:Disconnect() end
-
                     if touchEndedConnection then touchEndedConnection:Disconnect() end
-
                 end
-
             end)
-
         end
-
     end)
-
     ScreenGui.AncestryChanged:Connect(function()
-
         if not ScreenGui:IsDescendantOf(game) then
-
             ContextActionService:UnbindAction("DisableCameraMovement")
-
         end
-
     end)
-
 end
 
 -- Variabel untuk melacak status minimisasi
-
 local isTabContainerMinimized = false
 
 local CopyrightButton = Instance.new("TextButton")
@@ -3143,9 +3114,6 @@ CopyrightButton.ZIndex = 2
 local CopyrightCorner = Instance.new("UICorner")
 CopyrightCorner.CornerRadius = UDim.new(0, 5)
 CopyrightCorner.Parent = CopyrightButton
-
--- Variabel untuk melacak status minimisasi
-local isTabContainerMinimized = false
 
 -- Fungsi toggle untuk TabContainer
 CopyrightButton.MouseButton1Click:Connect(function()
@@ -3169,12 +3137,6 @@ CopyrightButton.MouseButton1Click:Connect(function()
             TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
             {Size = UDim2.new(1, 0, 0, 30), Position = UDim2.new(0, 0, 0, 0)}
         ):Play()
-        -- Sesuaikan YouTubeLabel
-        TweenService:Create(
-            YouTubeLabel,
-            TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-            {Size = UDim2.new(1, 0, 0, 30), Position = UDim2.new(0, 0, 1, -30)}
-        ):Play()
         CopyrightButton.Text = ">"
     else
         -- Kembalikan TabContainer
@@ -3195,13 +3157,7 @@ CopyrightButton.MouseButton1Click:Connect(function()
             TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
             {Size = UDim2.new(1, -110, 0, 30), Position = UDim2.new(0, 110, 0, 0)}
         ):Play()
-        -- Kembalikan YouTubeLabel
-        TweenService:Create(
-            YouTubeLabel,
-            TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-            {Size = UDim2.new(1, -110, 0, 30), Position = UDim2.new(0, 110, 1, -30)}
-        ):Play()
-        CopyrightButton.Text = "<"  -- CHANGED FROM ">" TO "<"
+        CopyrightButton.Text = "<"
     end
 end)
 
