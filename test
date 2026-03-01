@@ -507,14 +507,16 @@ local function setActiveTab(tabName)
     
     ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, tabContentHeights[tabName] or 0)
     
-    -- Restore saved scroll position or default to top
+    local tabScrollPositions = {}
+
+-- Restore saved scroll position or default to top
     local savedPosition = tabScrollPositions[tabName]
     if savedPosition then
         ScrollingFrame.CanvasPosition = savedPosition
     else
         ScrollingFrame.CanvasPosition = Vector2.new(0, 0)
     end
-end  -- This closes the setActiveTab function
+end
 
 function ModernGUILibraryFE.MakeTab(config)
     local tabName = config.Name
@@ -529,10 +531,12 @@ function ModernGUILibraryFE.MakeTab(config)
     tabContents[tabName] = tabContent
     tabPositionY[tabName] = 10
     tabContentHeights[tabName] = 0
+    
     local tabButton = createTabButton(tabName, iconName)
     tabButton.MouseButton1Click:Connect(function()
         setActiveTab(tabName)
     end)
+    
     if not activeTab then
         setActiveTab(tabName)
     end
