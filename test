@@ -1,25 +1,16 @@
 local Players = game:GetService("Players")
-
 local UIS = game:GetService("UserInputService")
-
 local ContextActionService = game:GetService("ContextActionService")
-
 local LocalPlayer = Players.LocalPlayer
-
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-
 local TweenService = game:GetService("TweenService")
-
 local CoreGui = game:GetService("CoreGui")
-
 local HttpService = game:GetService("HttpService")
-
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local ModernGUILibraryFE = {}
 
 -- Constants for Notification and UI
-
 local FONT = Enum.Font.GothamBold
 
 local CORNER_RADIUS = UDim.new(0, 6)
@@ -187,6 +178,8 @@ local Title = Instance.new("TextLabel")
 Title.Name = "Title"
 
 Title.Size = UDim2.new(1, 0, 1, 0)
+
+Title.Position = UDim2.new(1, -1, 0, 2)
 
 Title.BackgroundTransparency = 1
 
