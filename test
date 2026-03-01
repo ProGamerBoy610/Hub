@@ -3556,7 +3556,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
             wait(0.1)
         end
         
-        -- Create the open button GUI at top of screen
+        -- Create the open button GUI at top of screen 
         local OpenButtonGui = Instance.new("ScreenGui")
         OpenButtonGui.Name = "OpenButtonGui"
         OpenButtonGui.ResetOnSpawn = false
@@ -3575,6 +3575,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
         OpenButton.Font = Enum.Font.GothamBold
         OpenButton.TextColor3 = Color3.fromRGB(255, 255, 255)
         OpenButton.Text = "Open UI"
+        OpenButton.TextTransparency = 0
         OpenButton.TextSize = 15
         OpenButton.AutoButtonColor = false
         OpenButton.Parent = OpenButtonGui
@@ -3596,15 +3597,29 @@ MinimizeButton.MouseButton1Click:Connect(function()
         OpenStroke.Thickness = 2.5
         OpenStroke.Color = Color3.fromRGB(114, 137, 218)
         OpenStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-        OpenStroke.Transparency = 0.3
+        OpenStroke.Transparency = 0
         OpenStroke.Parent = OpenButton
         
+        -- Add shadow effect
+        local Shadow = Instance.new("ImageLabel")
+        Shadow.Name = "Shadow"
+        Shadow.Size = UDim2.new(1, 20, 1, 20)
+        Shadow.Position = UDim2.new(0, -10, 0, -10)
+        Shadow.BackgroundTransparency = 1
+        Shadow.Image = "rbxassetid://6015897843"
+        Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+        Shadow.ImageTransparency = 0.7
+        Shadow.ScaleType = Enum.ScaleType.Slice
+        Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
+        Shadow.ZIndex = -1
+        Shadow.Parent = OpenButton
         
         -- Animate button appearing
         OpenButton.Size = UDim2.new(0, 0, 0, 0)
         OpenButton.BackgroundTransparency = 1
         OpenButton.TextTransparency = 1
         OpenStroke.Transparency = 1
+        Shadow.ImageTransparency = 1
         
         TweenService:Create(OpenButton, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
             Size = UDim2.new(0, 160, 0, 45),
