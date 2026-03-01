@@ -3580,15 +3580,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
         OpenButton.AutoButtonColor = false
         OpenButton.Parent = OpenButtonGui
         
-        -- Add gradient background
-        local Gradient = Instance.new("UIGradient")
-        Gradient.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(45, 45, 50)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 35))
-        }
-        Gradient.Rotation = 90
-        Gradient.Parent = OpenButton
-        
         local OpenCorner = Instance.new("UICorner")
         OpenCorner.CornerRadius = UDim.new(0, 10)
         OpenCorner.Parent = OpenButton
