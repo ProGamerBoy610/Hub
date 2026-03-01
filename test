@@ -2835,17 +2835,13 @@ end
 
 function ModernGUILibraryFE.createNotification(message, type)
     local notifColor = COLORS.Accent
-    local typeText = "INFO"
     
     if type == "success" then
         notifColor = COLORS.Success
-        typeText = "SUCCESS"
     elseif type == "error" then
         notifColor = COLORS.Error
-        typeText = "ERROR"
     elseif type == "warning" then
         notifColor = COLORS.Warning
-        typeText = "WARNING"
     end
     
     local NotifGui = Instance.new("ScreenGui")
@@ -2858,7 +2854,6 @@ function ModernGUILibraryFE.createNotification(message, type)
     local StatusBarBGCorner = Instance.new("UICorner")
     local CloseButton = Instance.new("TextButton")
     local Shadow = Instance.new("ImageLabel")
-    local TypeLabel = Instance.new("TextLabel")
     local ColorIndicator = Instance.new("Frame")
     
     NotifGui.Name = "ModernNotification"
@@ -2875,8 +2870,8 @@ function ModernGUILibraryFE.createNotification(message, type)
     NotifFrame.Name = "NotifFrame"
     NotifFrame.Parent = NotifGui
     NotifFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
-    NotifFrame.Position = UDim2.new(1, 10, 0.1, 0)  -- Changed from 0.85 to 0.1 (moved up)
-    NotifFrame.Size = UDim2.new(0, 320, 0, 85)  -- Slightly taller and wider
+    NotifFrame.Position = UDim2.new(1, 10, 0.7, 0)  -- Changed to 0.7 (lower but still a bit up)
+    NotifFrame.Size = UDim2.new(0, 280, 0, 70)  -- Smaller size
     NotifFrame.BackgroundTransparency = 0
     NotifFrame.BorderSizePixel = 0
     NotifFrame.ZIndex = 100
@@ -2889,7 +2884,7 @@ function ModernGUILibraryFE.createNotification(message, type)
     ColorIndicator.Parent = NotifFrame
     ColorIndicator.BackgroundColor3 = notifColor
     ColorIndicator.Position = UDim2.new(0, 0, 0, 0)
-    ColorIndicator.Size = UDim2.new(0, 5, 1, 0)
+    ColorIndicator.Size = UDim2.new(0, 4, 1, 0)
     ColorIndicator.BorderSizePixel = 0
     ColorIndicator.ZIndex = 101
     
@@ -2916,24 +2911,11 @@ function ModernGUILibraryFE.createNotification(message, type)
     NotifStroke.Thickness = 1
     NotifStroke.Parent = NotifFrame
     
-    -- Type label (SUCCESS, ERROR, etc.)
-    TypeLabel.Name = "TypeLabel"
-    TypeLabel.Parent = NotifFrame
-    TypeLabel.BackgroundTransparency = 1
-    TypeLabel.Position = UDim2.new(0, 15, 0, 8)
-    TypeLabel.Size = UDim2.new(0, 150, 0, 18)
-    TypeLabel.Font = Enum.Font.GothamBold
-    TypeLabel.Text = typeText
-    TypeLabel.TextColor3 = notifColor
-    TypeLabel.TextSize = 13
-    TypeLabel.TextXAlignment = Enum.TextXAlignment.Left
-    TypeLabel.ZIndex = 102
-    
     NotifText.Name = "NotifText"
     NotifText.Parent = NotifFrame
     NotifText.BackgroundTransparency = 1
-    NotifText.Position = UDim2.new(0, 15, 0, 28)
-    NotifText.Size = UDim2.new(1, -60, 0, 35)
+    NotifText.Position = UDim2.new(0, 15, 0, 10)
+    NotifText.Size = UDim2.new(1, -60, 1, -25)
     NotifText.Font = Enum.Font.Gotham
     NotifText.Text = message
     NotifText.TextColor3 = Color3.fromRGB(220, 220, 220)
@@ -3002,7 +2984,7 @@ function ModernGUILibraryFE.createNotification(message, type)
     
     -- Slide in animation
     TweenService:Create(NotifFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Position = UDim2.new(1, -340, 0.1, 0)  -- Changed from 0.85 to 0.1
+        Position = UDim2.new(1, -300, 0.7, 0)  -- Changed to 0.7
     }):Play()
     
     -- Progress bar animation (empties from full to empty)
@@ -3014,7 +2996,7 @@ function ModernGUILibraryFE.createNotification(message, type)
     local function closeNotification()
         statusTween:Cancel()
         TweenService:Create(NotifFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-            Position = UDim2.new(1, 10, 0.1, 0)  -- Changed from 0.85 to 0.1
+            Position = UDim2.new(1, 10, 0.7, 0)  -- Changed to 0.7
         }):Play()
         TweenService:Create(Shadow, TweenInfo.new(0.3), {
             ImageTransparency = 1
