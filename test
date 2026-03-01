@@ -195,17 +195,77 @@ Title.TextXAlignment = Enum.TextXAlignment.Left
 
 Title.Parent = TopBar
 
--- FPS Counter for TopBar
+local CloseButton = Instance.new("TextButton")
+
+CloseButton.Name = "CloseButton"
+
+CloseButton.Size = UDim2.new(0, 25, 0, 25)
+
+CloseButton.Position = UDim2.new(1, -28, 0, 2)
+
+CloseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+
+CloseButton.BorderSizePixel = 0
+
+CloseButton.Font = Enum.Font.GothamBold
+
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+CloseButton.Text = "×"
+
+CloseButton.TextSize = 16
+
+CloseButton.Parent = TopBar
+
+CloseButton.ZIndex = 2
+
+local CloseCorner = Instance.new("UICorner")
+
+CloseCorner.CornerRadius = UDim.new(0, 5)
+
+CloseCorner.Parent = CloseButton
+
+local MinimizeButton = Instance.new("TextButton")
+
+MinimizeButton.Name = "MinimizeButton"
+
+MinimizeButton.Size = UDim2.new(0, 25, 0, 25)
+
+MinimizeButton.Position = UDim2.new(1, -58, 0, 2)
+
+MinimizeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+
+MinimizeButton.BorderSizePixel = 0
+
+MinimizeButton.Font = Enum.Font.GothamBold
+
+MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+MinimizeButton.Text = "−"
+
+MinimizeButton.TextSize = 16
+
+MinimizeButton.Parent = TopBar
+
+MinimizeButton.ZIndex = 2
+
+local MinimizeCorner = Instance.new("UICorner")
+
+MinimizeCorner.CornerRadius = UDim.new(0, 5)
+
+MinimizeCorner.Parent = MinimizeButton
+
+-- FPS Counter for TopBar (positioned to the left of CopyrightButton)
 local FPSLabel = Instance.new("TextLabel")
 FPSLabel.Name = "FPSLabel"
-FPSLabel.Size = UDim2.new(0, 80, 0, 25)
-FPSLabel.Position = UDim2.new(0, 220, 0, 2.5)  -- Positioned after the title
+FPSLabel.Size = UDim2.new(0, 70, 0, 25)
+FPSLabel.Position = UDim2.new(1, -123, 0, 2.5)  -- 123 = 88 (CopyrightButton) + 5 (gap) + 30 (half of FPS width)
 FPSLabel.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
 FPSLabel.BorderSizePixel = 0
 FPSLabel.Font = Enum.Font.GothamBold
 FPSLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-FPSLabel.Text = "FPS: 60"
-FPSLabel.TextSize = 13
+FPSLabel.Text = "60 FPS"
+FPSLabel.TextSize = 12
 FPSLabel.Parent = TopBar
 FPSLabel.ZIndex = 2
 
@@ -230,7 +290,7 @@ RunService.RenderStepped:Connect(function()
         lastUpdate = now
         
         -- Update text and color based on FPS
-        FPSLabel.Text = "FPS: " .. currentFPS
+        FPSLabel.Text = currentFPS .. " FPS"
         
         -- Color coding: Green (60+), Yellow (30-59), Red (<30)
         if currentFPS >= 60 then
