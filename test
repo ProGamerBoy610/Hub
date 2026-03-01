@@ -3494,6 +3494,18 @@ CloseButton.MouseButton1Click:Connect(function()
 
 end)
 
+-- ========================================
+-- IMPROVED MINIMIZE BUTTON WITH FEATURES:
+-- ========================================
+-- ✓ Better looking GUI styling
+-- ✓ Mobile + PC draggable
+-- ✓ Open button remembers position
+-- ✓ Smooth animations
+-- ========================================
+
+-- Variable to store the open button position
+local savedOpenButtonPosition = nil
+
 MinimizeButton.MouseButton1Click:Connect(function()
     local originalPosition = MainFrame.Position
     
@@ -3537,6 +3549,13 @@ MinimizeButton.MouseButton1Click:Connect(function()
     minimizeTween.Completed:Connect(function()
         ScreenGui.Enabled = false
         
+        -- Check if open button GUI already exists
+        local existingOpenButton = PlayerGui:FindFirstChild("OpenButtonGui")
+        if existingOpenButton then
+            existingOpenButton:Destroy()
+            wait(0.1)
+        end
+        
         -- Create the open button GUI at top of screen
         local OpenButtonGui = Instance.new("ScreenGui")
         OpenButtonGui.Name = "OpenButtonGui"
@@ -3545,110 +3564,263 @@ MinimizeButton.MouseButton1Click:Connect(function()
         OpenButtonGui.DisplayOrder = 10000001
         OpenButtonGui.Parent = PlayerGui
         
-        -- Create the open button
+        -- Create the open button with better styling
         local OpenButton = Instance.new("TextButton")
         OpenButton.Name = "OpenButton"
-        OpenButton.Size = UDim2.new(0, 150, 0, 40)
-        OpenButton.Position = UDim2.new(0.5, -75, 0, 10)
-        OpenButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        OpenButton.Size = UDim2.new(0, 160, 0, 45)
+        -- Use saved position or default position
+        OpenButton.Position = savedOpenButtonPosition or UDim2.new(0.5, -80, 0, 10)
+        OpenButton.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
         OpenButton.BorderSizePixel = 0
         OpenButton.Font = Enum.Font.GothamBold
         OpenButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        OpenButton.Text = "Open GUI"
-        OpenButton.TextSize = 16
+        OpenButton.Text = "📱 Open GUI"
+        OpenButton.TextSize = 15
+        OpenButton.AutoButtonColor = false
         OpenButton.Parent = OpenButtonGui
         
+        -- Add gradient background
+        local Gradient = Instance.new("UIGradient")
+        Gradient.Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(45, 45, 50)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 30, 35))
+        }
+        Gradient.Rotation = 90
+        Gradient.Parent = OpenButton
+        
         local OpenCorner = Instance.new("UICorner")
-        OpenCorner.CornerRadius = UDim.new(0, 8)
+        OpenCorner.CornerRadius = UDim.new(0, 10)
         OpenCorner.Parent = OpenButton
         
         local OpenStroke = Instance.new("UIStroke")
-        OpenStroke.Thickness = 2
+        OpenStroke.Thickness = 2.5
         OpenStroke.Color = Color3.fromRGB(114, 137, 218)
         OpenStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+        OpenStroke.Transparency = 0.3
         OpenStroke.Parent = OpenButton
         
+        -- Add shadow effect
+        local Shadow = Instance.new("ImageLabel")
+        Shadow.Name = "Shadow"
+        Shadow.Size = UDim2.new(1, 20, 1, 20)
+        Shadow.Position = UDim2.new(0, -10, 0, -10)
+        Shadow.BackgroundTransparency = 1
+        Shadow.Image = "rbxassetid://6015897843"
+        Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+        Shadow.ImageTransparency = 0.7
+        Shadow.ScaleType = Enum.ScaleType.Slice
+        Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
+        Shadow.ZIndex = -1
+        Shadow.Parent = OpenButton
+        
+        -- Animate button appearing
         OpenButton.Size = UDim2.new(0, 0, 0, 0)
         OpenButton.BackgroundTransparency = 1
         OpenButton.TextTransparency = 1
+        OpenStroke.Transparency = 1
+        Shadow.ImageTransparency = 1
         
         TweenService:Create(OpenButton, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-            Size = UDim2.new(0, 150, 0, 40),
+            Size = UDim2.new(0, 160, 0, 45),
             BackgroundTransparency = 0,
             TextTransparency = 0
         }):Play()
         
+        TweenService:Create(OpenStroke, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+            Transparency = 0.3
+        }):Play()
+        
+        TweenService:Create(Shadow, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+            ImageTransparency = 0.7
+        }):Play()
+        
+        -- Hover effects
         OpenButton.MouseEnter:Connect(function()
             TweenService:Create(OpenButton, TweenInfo.new(0.2), {
-                BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+                Size = UDim2.new(0, 170, 0, 48)
             }):Play()
             TweenService:Create(OpenStroke, TweenInfo.new(0.2), {
-                Color = Color3.fromRGB(150, 170, 255)
+                Color = Color3.fromRGB(150, 170, 255),
+                Transparency = 0
+            }):Play()
+            TweenService:Create(Shadow, TweenInfo.new(0.2), {
+                ImageTransparency = 0.5
             }):Play()
         end)
         
         OpenButton.MouseLeave:Connect(function()
             TweenService:Create(OpenButton, TweenInfo.new(0.2), {
-                BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                Size = UDim2.new(0, 160, 0, 45)
             }):Play()
             TweenService:Create(OpenStroke, TweenInfo.new(0.2), {
-                Color = Color3.fromRGB(114, 137, 218)
+                Color = Color3.fromRGB(114, 137, 218),
+                Transparency = 0.3
+            }):Play()
+            TweenService:Create(Shadow, TweenInfo.new(0.2), {
+                ImageTransparency = 0.7
             }):Play()
         end)
         
+        -- ========================================
+        -- DRAGGING FOR MOBILE + PC
+        -- ========================================
+        local dragging = false
+        local dragInput
+        local dragStart
+        local startPos
+        
+        -- PC Dragging
+        OpenButton.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = true
+                dragStart = input.Position
+                startPos = OpenButton.Position
+                
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then
+                        dragging = false
+                        -- Save the position when dragging ends
+                        savedOpenButtonPosition = OpenButton.Position
+                    end
+                end)
+            end
+        end)
+        
+        OpenButton.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                dragInput = input
+            end
+        end)
+        
+        UIS.InputChanged:Connect(function(input)
+            if input == dragInput and dragging then
+                local delta = input.Position - dragStart
+                OpenButton.Position = UDim2.new(
+                    startPos.X.Scale,
+                    startPos.X.Offset + delta.X,
+                    startPos.Y.Scale,
+                    startPos.Y.Offset + delta.Y
+                )
+            end
+        end)
+        
+        -- Mobile Touch Dragging
+        if UIS.TouchEnabled then
+            local touchConnection
+            local touchEndedConnection
+            
+            OpenButton.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = true
+                    dragStart = input.Position
+                    startPos = OpenButton.Position
+                    
+                    touchConnection = UIS.TouchMoved:Connect(function(touchInput)
+                        if dragging then
+                            local delta = touchInput.Position - dragStart
+                            OpenButton.Position = UDim2.new(
+                                startPos.X.Scale,
+                                startPos.X.Offset + delta.X,
+                                startPos.Y.Scale,
+                                startPos.Y.Offset + delta.Y
+                            )
+                        end
+                    end)
+                    
+                    touchEndedConnection = UIS.TouchEnded:Connect(function(touchInput)
+                        if touchInput == input then
+                            dragging = false
+                            savedOpenButtonPosition = OpenButton.Position
+                            if touchConnection then touchConnection:Disconnect() end
+                            if touchEndedConnection then touchEndedConnection:Disconnect() end
+                        end
+                    end)
+                end
+            end)
+        end
+        
+        -- Click to open GUI
+        local clickStartPos
+        OpenButton.MouseButton1Down:Connect(function()
+            clickStartPos = OpenButton.Position
+        end)
+        
         OpenButton.MouseButton1Click:Connect(function()
-            TweenService:Create(OpenButton, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-                Size = UDim2.new(0, 0, 0, 0),
-                BackgroundTransparency = 1,
-                TextTransparency = 1
-            }):Play()
-            
-            wait(0.3)
-            OpenButtonGui:Destroy()
-            
-            MainFrame.BackgroundTransparency = 0
-            MainFrame.Size = UDim2.new(0, 450, 0, 335)
-            MainFrame.Position = UDim2.new(0.5, -216, 0.5, -180)
-            MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-            
-            TopBar.BackgroundTransparency = 0
-            TopBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-            
-            ScrollingFrame.BackgroundTransparency = 1
-            ScrollingFrame.ScrollBarImageColor3 = Color3.fromRGB(10, 10, 10)
-            
-            Title.TextTransparency = 0
-            Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-            
-            for _, child in pairs(MainFrame:GetChildren()) do
-                if child:IsA("GuiObject") and child ~= ScrollingFrame then
-                    if child.Name ~= "UICorner" and child.Name ~= "MainFrameBorder" then
-                        child.BackgroundTransparency = 0
-                        
-                        if child:IsA("TextLabel") or child:IsA("TextButton") then
-                            child.TextTransparency = 0
+            -- Only open if button wasn't dragged (position didn't change much)
+            local currentPos = OpenButton.Position
+            if clickStartPos and 
+               math.abs(currentPos.X.Offset - clickStartPos.X.Offset) < 5 and 
+               math.abs(currentPos.Y.Offset - clickStartPos.Y.Offset) < 5 then
+                
+                -- Animate button disappearing
+                TweenService:Create(OpenButton, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+                    Size = UDim2.new(0, 0, 0, 0),
+                    BackgroundTransparency = 1,
+                    TextTransparency = 1
+                }):Play()
+                
+                TweenService:Create(OpenStroke, TweenInfo.new(0.3), {
+                    Transparency = 1
+                }):Play()
+                
+                TweenService:Create(Shadow, TweenInfo.new(0.3), {
+                    ImageTransparency = 1
+                }):Play()
+                
+                wait(0.3)
+                -- DON'T destroy the GUI, just hide it so position is saved
+                OpenButtonGui.Enabled = false
+                
+                -- Reset MainFrame to original state
+                MainFrame.BackgroundTransparency = 0
+                MainFrame.Size = UDim2.new(0, 450, 0, 335)
+                MainFrame.Position = UDim2.new(0.5, -216, 0.5, -180)
+                MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                
+                TopBar.BackgroundTransparency = 0
+                TopBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                
+                ScrollingFrame.BackgroundTransparency = 1
+                ScrollingFrame.ScrollBarImageColor3 = Color3.fromRGB(10, 10, 10)
+                
+                Title.TextTransparency = 0
+                Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+                
+                for _, child in pairs(MainFrame:GetChildren()) do
+                    if child:IsA("GuiObject") and child ~= ScrollingFrame then
+                        if child.Name ~= "UICorner" and child.Name ~= "MainFrameBorder" then
+                            child.BackgroundTransparency = 0
+                            
+                            if child:IsA("TextLabel") or child:IsA("TextButton") then
+                                child.TextTransparency = 0
+                            end
                         end
                     end
                 end
+                
+                CloseButton.BackgroundTransparency = 0
+                CloseButton.TextTransparency = 0
+                CloseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                
+                MinimizeButton.BackgroundTransparency = 0
+                MinimizeButton.TextTransparency = 0
+                MinimizeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                
+                CopyrightButton.BackgroundTransparency = 0
+                CopyrightButton.TextTransparency = 0
+                CopyrightButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                
+                -- Re-enable the GUI with animation
+                ScreenGui.Enabled = true
+                
+                MainFrame.Size = UDim2.new(0, 0, 0, 0)
+                MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+                
+                TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+                    Size = UDim2.new(0, 450, 0, 335),
+                    Position = UDim2.new(0.5, -216, 0.5, -180)
+                }):Play()
             end
-            
-            CloseButton.BackgroundTransparency = 0
-            CloseButton.TextTransparency = 0
-            CloseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-            
-            MinimizeButton.BackgroundTransparency = 0
-            MinimizeButton.TextTransparency = 0
-            MinimizeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-            
-            ScreenGui.Enabled = true
-            
-            MainFrame.Size = UDim2.new(0, 0, 0, 0)
-            MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-            
-            TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-                Size = UDim2.new(0, 450, 0, 335),
-                Position = UDim2.new(0.5, -216, 0.5, -180)
-            }):Play()
         end)
     end)
 end)
