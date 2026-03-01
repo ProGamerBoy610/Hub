@@ -307,47 +307,7 @@ ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 
 ScrollingFrame.Parent = MainFrame
 
--- YouTube Label
-
-local YouTubeLabel = Instance.new("TextLabel")
-
-YouTubeLabel.Name = "YouTubeLabel"
-
-YouTubeLabel.Size = UDim2.new(1, -110, 0, 30)
-
-YouTubeLabel.Position = UDim2.new(0, 110, 1, -30)
-
-YouTubeLabel.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
-
-YouTubeLabel.BorderSizePixel = 0
-
-YouTubeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-YouTubeLabel.TextSize = 16
-
-YouTubeLabel.Font = Enum.Font.GothamBold
-
-YouTubeLabel.Text = "© Youtube: Zysume"
-
-YouTubeLabel.TextXAlignment = Enum.TextXAlignment.Left
-
-YouTubeLabel.Parent = MainFrame
-
-YouTubeLabel.ZIndex = 2
-
-YouTubeLabel.Visible = true
-
-local YouTubeLabelCorner = Instance.new("UICorner")
-
-YouTubeLabelCorner.CornerRadius = UDim.new(0, 10)
-
-YouTubeLabelCorner.Parent = YouTubeLabel
-
-local UIPadding = Instance.new("UIPadding")
-
-UIPadding.PaddingLeft = UDim.new(0, 15)
-
-UIPadding.Parent = YouTubeLabel
+-- YouTube Label (REMOVED)
 
 -- Tab Management
 
@@ -645,7 +605,7 @@ function ModernGUILibraryFE.MakeTab(config)
 
     tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-    tabContentHeights[tabName] = tabPositionY[tabName]
+    tabContentHeights[tabName] = tabPositionY[tabName] + 200
 
     if activeTab == tabName then
 
@@ -665,7 +625,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName]
+            tabContentHeights[tabName] = tabPositionY[tabName] + 200
 
             if activeTab == tabName then
 
@@ -685,7 +645,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName]
+            tabContentHeights[tabName] = tabPositionY[tabName] + 200
 
             if activeTab == tabName then
 
@@ -705,7 +665,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName]
+            tabContentHeights[tabName] = tabPositionY[tabName] + 200
 
             if activeTab == tabName then
 
@@ -725,7 +685,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName]
+            tabContentHeights[tabName] = tabPositionY[tabName] + 200
 
             if activeTab == tabName then
 
@@ -745,7 +705,7 @@ end,
 
             tabPositionY[tabName] = tabPositionY[tabName] + 35
 
-            tabContentHeights[tabName] = tabPositionY[tabName]
+            tabContentHeights[tabName] = tabPositionY[tabName] + 200
 
             if activeTab == tabName then
 
