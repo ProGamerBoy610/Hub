@@ -3381,117 +3381,148 @@ CopyrightButton.MouseButton1Click:Connect(function()
 end)
 
 CloseButton.MouseButton1Click:Connect(function()
-
     local confirmGui = Instance.new("Frame")
-
-    confirmGui.Size = UDim2.new(0, 250, 0, 120)
-
-    confirmGui.Position = UDim2.new(0.5, -125, 0.5, -60)
-
-    confirmGui.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-
+    confirmGui.Size = UDim2.new(0, 280, 0, 140)
+    confirmGui.Position = UDim2.new(0.5, -140, 0.5, -70)
+    confirmGui.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
     confirmGui.BorderSizePixel = 0
-
     confirmGui.Parent = ScreenGui
-
     
-
     local confirmCorner = Instance.new("UICorner")
-
-    confirmCorner.CornerRadius = UDim.new(0, 10)
-
+    confirmCorner.CornerRadius = UDim.new(0, 8)
     confirmCorner.Parent = confirmGui
-
     
-
+    -- Add subtle border
+    local confirmStroke = Instance.new("UIStroke")
+    confirmStroke.Color = Color3.fromRGB(60, 60, 65)
+    confirmStroke.Thickness = 1
+    confirmStroke.Parent = confirmGui
+    
+    -- Add shadow
+    local Shadow = Instance.new("ImageLabel")
+    Shadow.Name = "Shadow"
+    Shadow.Size = UDim2.new(1, 30, 1, 30)
+    Shadow.Position = UDim2.new(0, -15, 0, -15)
+    Shadow.BackgroundTransparency = 1
+    Shadow.Image = "rbxassetid://6015897843"
+    Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+    Shadow.ImageTransparency = 0.5
+    Shadow.ScaleType = Enum.ScaleType.Slice
+    Shadow.SliceCenter = Rect.new(49, 49, 450, 450)
+    Shadow.ZIndex = -1
+    Shadow.Parent = confirmGui
+    
     local confirmText = Instance.new("TextLabel")
-
-    confirmText.Size = UDim2.new(1, -20, 0, 60)
-
-    confirmText.Position = UDim2.new(0, 10, 0, 10)
-
+    confirmText.Size = UDim2.new(1, -30, 0, 70)
+    confirmText.Position = UDim2.new(0, 15, 0, 15)
     confirmText.BackgroundTransparency = 1
-
-    confirmText.TextColor3 = Color3.fromRGB(255, 255, 255)
-
+    confirmText.TextColor3 = Color3.fromRGB(220, 220, 220)
     confirmText.TextSize = 14
-
-    confirmText.Font = Enum.Font.GothamBold
-
-    confirmText.Text = "Are you sure want to close this GUI?"
-
+    confirmText.Font = Enum.Font.Gotham
+    confirmText.Text = "Are you sure you want to close this GUI?"
     confirmText.TextWrapped = true
-
+    confirmText.TextXAlignment = Enum.TextXAlignment.Center
     confirmText.Parent = confirmGui
-
     
-
     local yesButton = Instance.new("TextButton")
-
-    yesButton.Size = UDim2.new(0, 80, 0, 30)
-
-    yesButton.Position = UDim2.new(0, 40, 1, -40)
-
-    yesButton.BackgroundColor3 = Color3.fromRGB(255, 89, 89)
-
+    yesButton.Size = UDim2.new(0, 100, 0, 35)
+    yesButton.Position = UDim2.new(0, 25, 1, -50)
+    yesButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+    yesButton.BorderSizePixel = 0
     yesButton.Text = "Yes"
-
     yesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-    yesButton.Font = Enum.Font.GothamBold
-
+    yesButton.TextSize = 13
+    yesButton.Font = Enum.Font.GothamMedium
+    yesButton.AutoButtonColor = false
     yesButton.Parent = confirmGui
-
     
-
+    local yesCorner = Instance.new("UICorner")
+    yesCorner.CornerRadius = UDim.new(0, 6)
+    yesCorner.Parent = yesButton
+    
     local nopeButton = Instance.new("TextButton")
-
-    nopeButton.Size = UDim2.new(0, 80, 0, 30)
-
-    nopeButton.Position = UDim2.new(1, -120, 1, -40)
-
-    nopeButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-
-    nopeButton.Text = "Nope"
-
-    nopeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-    nopeButton.Font = Enum.Font.GothamBold
-
+    nopeButton.Size = UDim2.new(0, 100, 0, 35)
+    nopeButton.Position = UDim2.new(1, -125, 1, -50)
+    nopeButton.BackgroundColor3 = Color3.fromRGB(55, 55, 60)
+    nopeButton.BorderSizePixel = 0
+    nopeButton.Text = "Cancel"
+    nopeButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+    nopeButton.TextSize = 13
+    nopeButton.Font = Enum.Font.GothamMedium
+    nopeButton.AutoButtonColor = false
     nopeButton.Parent = confirmGui
-
     
-
+    local nopeCorner = Instance.new("UICorner")
+    nopeCorner.CornerRadius = UDim.new(0, 6)
+    nopeCorner.Parent = nopeButton
+    
+    -- Animate appearing
     confirmGui.Size = UDim2.new(0, 0, 0, 0)
-
-    TweenService:Create(confirmGui, TweenInfo.new(0.3, Enum.EasingStyle.Back), {Size = UDim2.new(0, 250, 0, 120)}):Play()
-
+    confirmGui.BackgroundTransparency = 1
+    confirmText.TextTransparency = 1
+    yesButton.BackgroundTransparency = 1
+    yesButton.TextTransparency = 1
+    nopeButton.BackgroundTransparency = 1
+    nopeButton.TextTransparency = 1
+    confirmStroke.Transparency = 1
+    Shadow.ImageTransparency = 1
     
-
+    TweenService:Create(confirmGui, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0, 280, 0, 140),
+        BackgroundTransparency = 0
+    }):Play()
+    
+    TweenService:Create(confirmText, TweenInfo.new(0.3), {TextTransparency = 0}):Play()
+    TweenService:Create(yesButton, TweenInfo.new(0.3), {BackgroundTransparency = 0, TextTransparency = 0}):Play()
+    TweenService:Create(nopeButton, TweenInfo.new(0.3), {BackgroundTransparency = 0, TextTransparency = 0}):Play()
+    TweenService:Create(confirmStroke, TweenInfo.new(0.3), {Transparency = 0}):Play()
+    TweenService:Create(Shadow, TweenInfo.new(0.3), {ImageTransparency = 0.5}):Play()
+    
+    -- Hover effects for Yes button
+    yesButton.MouseEnter:Connect(function()
+        TweenService:Create(yesButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(240, 80, 80)
+        }):Play()
+    end)
+    
+    yesButton.MouseLeave:Connect(function()
+        TweenService:Create(yesButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+        }):Play()
+    end)
+    
+    -- Hover effects for Cancel button
+    nopeButton.MouseEnter:Connect(function()
+        TweenService:Create(nopeButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(70, 70, 75)
+        }):Play()
+    end)
+    
+    nopeButton.MouseLeave:Connect(function()
+        TweenService:Create(nopeButton, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(55, 55, 60)
+        }):Play()
+    end)
+    
     yesButton.MouseButton1Click:Connect(function()
-
         ScreenGui:Destroy()
-
         local existingCircleGui = PlayerGui:FindFirstChild("CircleGui")
-
         if existingCircleGui then
-
             existingCircleGui:Destroy()
-
             wait(0.1)
-
         end
-
     end)
-
     
-
     nopeButton.MouseButton1Click:Connect(function()
-
+        -- Animate disappearing
+        TweenService:Create(confirmGui, TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+            Size = UDim2.new(0, 0, 0, 0),
+            BackgroundTransparency = 1
+        }):Play()
+        TweenService:Create(Shadow, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
+        wait(0.2)
         confirmGui:Destroy()
-
     end)
-
 end)
 
 -- ========================================
