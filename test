@@ -455,8 +455,9 @@ local function setActiveTab(tabName)
     if activeTab == tabName then return end
     
     if activeTab then
-        -- Save current tab's scroll position
-        tabScrollPositions[activeTab] = ScrollingFrame.CanvasPosition
+        if activeTab then
+    tabScrollPositions[activeTab] = ScrollingFrame.CanvasPosition
+end
         
         tabContents[activeTab].Visible = false
         local prevTabButton = TabContainer:FindFirstChild(activeTab .. "Tab")
@@ -533,9 +534,11 @@ function ModernGUILibraryFE.MakeTab(config)
     tabContentHeights[tabName] = 0
     
     local tabButton = createTabButton(tabName, iconName)
+    if tabButton then
     tabButton.MouseButton1Click:Connect(function()
         setActiveTab(tabName)
     end)
+end
     
     if not activeTab then
         setActiveTab(tabName)
