@@ -195,6 +195,54 @@ Title.TextXAlignment = Enum.TextXAlignment.Left
 
 Title.Parent = TopBar
 
+-- FPS Counter for TopBar
+local FPSLabel = Instance.new("TextLabel")
+FPSLabel.Name = "FPSLabel"
+FPSLabel.Size = UDim2.new(0, 80, 0, 25)
+FPSLabel.Position = UDim2.new(0, 220, 0, 2.5)  -- Positioned after the title
+FPSLabel.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+FPSLabel.BorderSizePixel = 0
+FPSLabel.Font = Enum.Font.GothamBold
+FPSLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+FPSLabel.Text = "FPS: 60"
+FPSLabel.TextSize = 13
+FPSLabel.Parent = TopBar
+FPSLabel.ZIndex = 2
+
+local FPSCorner = Instance.new("UICorner")
+FPSCorner.CornerRadius = UDim.new(0, 5)
+FPSCorner.Parent = FPSLabel
+
+-- FPS Calculation
+local RunService = game:GetService("RunService")
+local lastUpdate = tick()
+local frameCount = 0
+local currentFPS = 60
+
+RunService.RenderStepped:Connect(function()
+    frameCount = frameCount + 1
+    local now = tick()
+    local elapsed = now - lastUpdate
+    
+    if elapsed >= 0.5 then  -- Update every 0.5 seconds
+        currentFPS = math.floor(frameCount / elapsed)
+        frameCount = 0
+        lastUpdate = now
+        
+        -- Update text and color based on FPS
+        FPSLabel.Text = "FPS: " .. currentFPS
+        
+        -- Color coding: Green (60+), Yellow (30-59), Red (<30)
+        if currentFPS >= 60 then
+            FPSLabel.TextColor3 = Color3.fromRGB(87, 242, 135)  -- Green
+        elseif currentFPS >= 30 then
+            FPSLabel.TextColor3 = Color3.fromRGB(255, 201, 79)  -- Yellow
+        else
+            FPSLabel.TextColor3 = Color3.fromRGB(255, 89, 89)  -- Red
+        end
+    end
+end)
+
 local CloseButton = Instance.new("TextButton")
 
 CloseButton.Name = "CloseButton"
