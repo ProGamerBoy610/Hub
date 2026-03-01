@@ -3494,41 +3494,19 @@ CloseButton.MouseButton1Click:Connect(function()
 
 end)
 
--- ========================================
--- MINIMIZE BUTTON UI SYSTEM GUIDE
--- ========================================
--- This guide shows you WHERE and WHAT to add to create
--- an open button that appears when you minimize the GUI
--- (similar to Wind UI's open button system)
-
--- ========================================
--- STEP 1: FIND THIS SECTION IN YOUR LIBRARY CODE
--- ========================================
--- Location: Around line 1800-1900 in the library file
--- Look for: MinimizeButton.MouseButton1Click:Connect(function()
-
--- ========================================
--- STEP 2: REPLACE THE ENTIRE MinimizeButton SECTION
--- ========================================
--- Replace the existing minimize button code with this:
-
 MinimizeButton.MouseButton1Click:Connect(function()
-    -- Simpan posisi asli MainFrame
     local originalPosition = MainFrame.Position
     
-    -- Animasi MainFrame mengecil ke arah kanan dari posisi asli
     local minimizeTween = TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut), {
         Size = UDim2.new(0, 0, 0, 0),
         Position = UDim2.new(originalPosition.X.Scale + 0.25, originalPosition.X.Offset, originalPosition.Y.Scale, originalPosition.Y.Offset),
         BackgroundTransparency = 1
     })
     
-    -- Animasi TopBar juga fade out
     local topBarTween = TweenService:Create(TopBar, TweenInfo.new(0.4, Enum.EasingStyle.Quart), {
         BackgroundTransparency = 1
     })
     
-    -- Animasi semua child elements fade out lebih smooth
     for _, child in pairs(MainFrame:GetChildren()) do
         if child:IsA("GuiObject") then
             TweenService:Create(child, TweenInfo.new(0.4, Enum.EasingStyle.Quart), {
@@ -3543,7 +3521,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
         end
     end
     
-    -- Animasi buttons di TopBar
     TweenService:Create(CloseButton, TweenInfo.new(0.4, Enum.EasingStyle.Quart), {
         BackgroundTransparency = 1,
         TextTransparency = 1
@@ -3557,9 +3534,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
     minimizeTween:Play()
     topBarTween:Play()
     
-    -- ========================================
-    -- NEW CODE: CREATE OPEN BUTTON
-    -- ========================================
     minimizeTween.Completed:Connect(function()
         ScreenGui.Enabled = false
         
@@ -3569,34 +3543,31 @@ MinimizeButton.MouseButton1Click:Connect(function()
         OpenButtonGui.ResetOnSpawn = false
         OpenButtonGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
         OpenButtonGui.DisplayOrder = 10000001
-        OpenButtonGui.Parent = game.Players.LocalPlayer.PlayerGui
+        OpenButtonGui.Parent = PlayerGui
         
         -- Create the open button
         local OpenButton = Instance.new("TextButton")
         OpenButton.Name = "OpenButton"
-        OpenButton.Size = UDim2.new(0, 150, 0, 40)  -- YOU CAN CHANGE SIZE HERE
-        OpenButton.Position = UDim2.new(0.5, -75, 0, 10)  -- YOU CAN CHANGE POSITION HERE (currently top center)
-        OpenButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)  -- YOU CAN CHANGE COLOR HERE
+        OpenButton.Size = UDim2.new(0, 150, 0, 40)
+        OpenButton.Position = UDim2.new(0.5, -75, 0, 10)
+        OpenButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
         OpenButton.BorderSizePixel = 0
         OpenButton.Font = Enum.Font.GothamBold
         OpenButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        OpenButton.Text = "Open GUI"  -- YOU CAN CHANGE TEXT HERE
-        OpenButton.TextSize = 16  -- YOU CAN CHANGE TEXT SIZE HERE
+        OpenButton.Text = "Open GUI"
+        OpenButton.TextSize = 16
         OpenButton.Parent = OpenButtonGui
         
-        -- Add corner radius
         local OpenCorner = Instance.new("UICorner")
         OpenCorner.CornerRadius = UDim.new(0, 8)
         OpenCorner.Parent = OpenButton
         
-        -- Add border stroke
         local OpenStroke = Instance.new("UIStroke")
         OpenStroke.Thickness = 2
-        OpenStroke.Color = Color3.fromRGB(114, 137, 218)  -- YOU CAN CHANGE BORDER COLOR HERE
+        OpenStroke.Color = Color3.fromRGB(114, 137, 218)
         OpenStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
         OpenStroke.Parent = OpenButton
         
-        -- Animate button appearing
         OpenButton.Size = UDim2.new(0, 0, 0, 0)
         OpenButton.BackgroundTransparency = 1
         OpenButton.TextTransparency = 1
@@ -3607,7 +3578,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
             TextTransparency = 0
         }):Play()
         
-        -- Button hover effect
         OpenButton.MouseEnter:Connect(function()
             TweenService:Create(OpenButton, TweenInfo.new(0.2), {
                 BackgroundColor3 = Color3.fromRGB(60, 60, 60)
@@ -3626,9 +3596,7 @@ MinimizeButton.MouseButton1Click:Connect(function()
             }):Play()
         end)
         
-        -- Click to open GUI
         OpenButton.MouseButton1Click:Connect(function()
-            -- Animate button disappearing
             TweenService:Create(OpenButton, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
                 Size = UDim2.new(0, 0, 0, 0),
                 BackgroundTransparency = 1,
@@ -3638,7 +3606,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
             wait(0.3)
             OpenButtonGui:Destroy()
             
-            -- Reset MainFrame to original state
             MainFrame.BackgroundTransparency = 0
             MainFrame.Size = UDim2.new(0, 450, 0, 335)
             MainFrame.Position = UDim2.new(0.5, -216, 0.5, -180)
@@ -3673,7 +3640,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
             MinimizeButton.TextTransparency = 0
             MinimizeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
             
-            -- Re-enable the GUI with animation
             ScreenGui.Enabled = true
             
             MainFrame.Size = UDim2.new(0, 0, 0, 0)
@@ -3685,176 +3651,6 @@ MinimizeButton.MouseButton1Click:Connect(function()
             }):Play()
         end)
     end)
-end)
-
--- ========================================
--- CUSTOMIZATION OPTIONS
--- ========================================
---[[
-YOU CAN CUSTOMIZE:
-
-1. BUTTON SIZE:
-   OpenButton.Size = UDim2.new(0, WIDTH, 0, HEIGHT)
-   Example: UDim2.new(0, 200, 0, 50) for wider/taller button
-
-2. BUTTON POSITION:
-   OpenButton.Position = UDim2.new(X_SCALE, X_OFFSET, Y_SCALE, Y_OFFSET)
-   Examples:
-   - Top Left: UDim2.new(0, 10, 0, 10)
-   - Top Center: UDim2.new(0.5, -75, 0, 10) [current]
-   - Top Right: UDim2.new(1, -160, 0, 10)
-   - Bottom Center: UDim2.new(0.5, -75, 1, -50)
-
-3. BUTTON COLORS:
-   OpenButton.BackgroundColor3 = Color3.fromRGB(R, G, B)
-   OpenStroke.Color = Color3.fromRGB(R, G, B)
-
-4. BUTTON TEXT:
-   OpenButton.Text = "YOUR TEXT HERE"
-   OpenButton.TextSize = NUMBER
-
-5. HOVER COLORS:
-   In MouseEnter/MouseLeave sections, change:
-   BackgroundColor3 = Color3.fromRGB(R, G, B)
-
-6. ANIMATION SPEED:
-   Change the numbers in TweenInfo.new(SPEED, ...)
-   Example: TweenInfo.new(0.3, ...) is faster than 0.5
-
-7. BORDER THICKNESS:
-   OpenStroke.Thickness = NUMBER (1-5 recommended)
-]]
-
--- ========================================
--- WHERE TO PASTE THIS
--- ========================================
---[[
-1. Open your library file (the one you uploaded to GitHub)
-2. Find line ~1800 where it says: MinimizeButton.MouseButton1Click:Connect(function()
-3. DELETE everything from that line until the end of that function
-4. PASTE the new code from above
-5. Save and re-upload to GitHub
-6. Done! Now when you minimize, an open button will appear at the top
-]]
-
-    
-
-    -- Animasi buttons di TopBar
-
-    TweenService:Create(CloseButton, TweenInfo.new(0.4, Enum.EasingStyle.Quart), {
-
-        BackgroundTransparency = 1,
-
-        TextTransparency = 1
-
-    }):Play()
-
-    
-
-    TweenService:Create(MinimizeButton, TweenInfo.new(0.4, Enum.EasingStyle.Quart), {
-
-        BackgroundTransparency = 1,
-
-        TextTransparency = 1
-
-    }):Play()
-
-    
-
-    minimizeTween:Play()
-
-    topBarTween:Play()
-
-    
-
-    -- Setelah animasi selesai, disable GUI
-
-    minimizeTween.Completed:Connect(function()
-
-    ScreenGui.Enabled = false
-
-    
-
-    -- Kembalikan MainFrame ke state asli
-
-    MainFrame.BackgroundTransparency = 0
-
-    MainFrame.Size = UDim2.new(0, 450, 0, 335) -- Size asli
-
-    MainFrame.Position = UDim2.new(0.5, -216, 0.5, -180) -- Position asli
-
-    MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Warna asli
-
-    
-
-    -- Kembalikan TopBar ke state asli
-
-    TopBar.BackgroundTransparency = 0
-
-    TopBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Warna asli TopBar
-
-    
-
-    -- Kembalikan ScrollingFrame ke state asli
-
-    ScrollingFrame.BackgroundTransparency = 1 -- ScrollingFrame aslinya transparent
-
-    ScrollingFrame.ScrollBarImageColor3 = Color3.fromRGB(10, 10, 10) -- Warna scrollbar asli
-
-    
-
-    -- Kembalikan Title ke state asli
-
-    Title.TextTransparency = 0
-
-    Title.TextColor3 = Color3.fromRGB(255, 255, 255) -- Warna text asli
-
-    
-
-    -- Kembalikan transparency semua child elements lainnya
-
-    for _, child in pairs(MainFrame:GetChildren()) do
-
-        if child:IsA("GuiObject") and child ~= ScrollingFrame then -- Skip ScrollingFrame karena sudah di-handle
-
-            if child.Name ~= "UICorner" and child.Name ~= "MainFrameBorder" then -- Skip UI elements
-
-                child.BackgroundTransparency = 0
-
-                
-
-                if child:IsA("TextLabel") or child:IsA("TextButton") then
-
-                    child.TextTransparency = 0
-
-                end
-
-            end
-
-        end
-
-    end
-
-    
-
-    -- Kembalikan buttons di TopBar ke state asli
-
-    CloseButton.BackgroundTransparency = 0
-
-    CloseButton.TextTransparency = 0
-
-    CloseButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Warna asli
-
-    
-
-    MinimizeButton.BackgroundTransparency = 0
-
-    MinimizeButton.TextTransparency = 0
-
-    MinimizeButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Warna asli
-
-end)
-
 end)
 
 return ModernGUILibraryFE
