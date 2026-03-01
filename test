@@ -255,11 +255,28 @@ MinimizeCorner.CornerRadius = UDim.new(0, 5)
 
 MinimizeCorner.Parent = MinimizeButton
 
+local CopyrightButton = Instance.new("TextButton")
+CopyrightButton.Name = "CopyrightButton"
+CopyrightButton.Size = UDim2.new(0, 25, 0, 25)
+CopyrightButton.Position = UDim2.new(1, -88, 0, 2)
+CopyrightButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+CopyrightButton.BorderSizePixel = 0
+CopyrightButton.Font = Enum.Font.GothamBold
+CopyrightButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CopyrightButton.Text = "<"
+CopyrightButton.TextSize = 16
+CopyrightButton.Parent = TopBar
+CopyrightButton.ZIndex = 2
+
+local CopyrightCorner = Instance.new("UICorner")
+CopyrightCorner.CornerRadius = UDim.new(0, 5)
+CopyrightCorner.Parent = CopyrightButton
+
 -- FPS Counter for TopBar (positioned to the left of CopyrightButton)
 local FPSLabel = Instance.new("TextLabel")
 FPSLabel.Name = "FPSLabel"
 FPSLabel.Size = UDim2.new(0, 70, 0, 25)
-FPSLabel.Position = UDim2.new(1, -123, 0, 2.5)  -- 123 = 88 (CopyrightButton) + 5 (gap) + 30 (half of FPS width)
+FPSLabel.Position = UDim2.new(1, -168, 0, 2.5)  -- 168 = 88 + 5 (gap) + 75 (FPS width)
 FPSLabel.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
 FPSLabel.BorderSizePixel = 0
 FPSLabel.Font = Enum.Font.GothamBold
